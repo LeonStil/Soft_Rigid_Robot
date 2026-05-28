@@ -43,7 +43,7 @@ const int LAST_I2C_ADDRESS = 0x77;
 /*
     I2C timeout so the scanner does not freeze forever if the bus is stuck.
 */
-const uint I2C_TIMEOUT_US = 10000;
+const uint32_t I2C_TIMEOUT_US = 10000;
 
 int main() {
     stdio_init_all();
@@ -81,11 +81,11 @@ int main() {
                 Try to read 1 byte from each address.
 
                 If a device acknowledges the address, the function usually
-                returns 1. If no device responds, it returns an error code.
+                returns 1. If no device responds, it sreturns an error code.
             */
             int result = i2c_read_timeout_us(
                 I2C_PORT,
-                address,
+                (uint8_t)address,
                 &dummy,
                 1,
                 false,
