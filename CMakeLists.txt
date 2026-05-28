@@ -33,30 +33,128 @@ project(Soft_Rigid_Robot C CXX ASM)
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-# Add executable. Default name is the project name, version 0.1
-
-add_executable(Soft_Rigid_Robot Soft_Rigid_Robot.c )
+# Add executable. 
+add_executable(Soft_Rigid_Robot
+        Main/Main_Soft_Rigid_Robot.cpp
+        Modules/PIDController.cpp
+        Modules/MotorConverter.cpp
+        Modules/MPU6050Sensor.cpp
+        Modules/MotorDriver.cpp
+        )
 
 pico_set_program_name(Soft_Rigid_Robot "Soft_Rigid_Robot")
 pico_set_program_version(Soft_Rigid_Robot "0.1")
 
-# Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(Soft_Rigid_Robot 0)
-pico_enable_stdio_usb(Soft_Rigid_Robot 0)
+pico_enable_stdio_usb(Soft_Rigid_Robot 1)
 
-# Add the standard library to the build
-target_link_libraries(Soft_Rigid_Robot
-        pico_stdlib)
-
-# Add the standard include files to the build
 target_include_directories(Soft_Rigid_Robot PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/Modules
 )
 
-# Add any user requested libraries
-target_link_libraries(Soft_Rigid_Robot 
+target_link_libraries(Soft_Rigid_Robot
+        pico_stdlib
         hardware_i2c
+        hardware_pwm
         )
 
 pico_add_extra_outputs(Soft_Rigid_Robot)
 
+
+# Troubleshooting executables
+
+add_executable(I2CScanner
+        Troubleshooting/IMU/I2CScanner.cpp
+        )
+
+pico_enable_stdio_uart(I2CScanner 0)
+pico_enable_stdio_usb(I2CScanner 1)
+
+target_link_libraries(I2CScanner
+        pico_stdlib
+        hardware_i2c
+        )
+
+pico_add_extra_outputs(I2CScanner)
+
+
+
+add_executable(AngleMeasurement
+        Troubleshooting/IMU/AngleMeasurement.cpp
+        )
+
+pico_enable_stdio_uart(AngleMeasurement 0)
+pico_enable_stdio_usb(AngleMeasurement 1)
+
+target_link_libraries(AngleMeasurement
+        pico_stdlib
+        hardware_i2c
+        )
+
+pico_add_extra_outputs(AngleMeasurement)
+
+
+
+add_executable(MotorActuation
+        "Troubleshooting/DC Motors/MotorActuation.cpp"
+        )
+
+pico_enable_stdio_uart(MotorActuation 0)
+pico_enable_stdio_usb(MotorActuation 1)
+
+target_link_libraries(MotorActuation
+        pico_stdlib
+        hardware_pwm
+        )
+
+pico_add_extra_outputs(MotorActuation)
+
+
+
+add_executable(ServoActuation
+        Troubleshooting/Servo/ServoActuation.cpp
+        )
+
+pico_enable_stdio_uart(ServoActuation 0)
+pico_enable_stdio_usb(ServoActuation 1)
+
+target_link_libraries(ServoActuation
+        pico_stdlib
+        hardware_pwm
+        )
+
+pico_add_extra_outputs(ServoActuation)
+
+
+
+add_executable(EasyServoActuation
+        Troubleshooting/Servo/EasyServoActuation.cpp
+        )
+
+pico_enable_stdio_uart(EasyServoActuation 0)
+pico_enable_stdio_usb(EasyServoActuation 1)
+
+target_link_libraries(EasyServoActuation
+        pico_stdlib
+        hardware_pwm
+        )
+
+pico_add_extra_outputs(EasyServoActuation)
+
+
+
+add_executable(MotorMpuDebug
+        Troubleshooting/Combinations/MotorMpuDebug.cpp
+        )
+
+pico_enable_stdio_uart(MotorMpuDebug 0)
+pico_enable_stdio_usb(MotorMpuDebug 1)
+
+target_link_libraries(MotorMpuDebug
+        pico_stdlib
+        hardware_pwm
+        hardware_i2c
+        )
+
+pico_add_extra_outputs(MotorMpuDebug)
