@@ -12,19 +12,19 @@ max_pwm = 80
 motor_start_pwm = 20
 pid_output_limit = 60
 
-def send_to_pico(command):
+def send_to_pico(command): # Placeholder function to send command to Pico
     print("Sending:", command)
 
-def clamp(value, minimum, maximum):
+def clamp(value, minimum, maximum):  # Utility function to clamp a value between a minimum and maximum
     return max(minimum, min(maximum, value))
 
-def update_label(label, name, value):
+def update_label(label, name, value): # Utility function to update a label with the current value of a setting
     label.config(text=f"{name}: {value}")
 
-def change_pid(name, amount, label):
+def change_pid(name, amount, label): # Function to change PID values and send command to Pico, with name indicating which PID parameter to change and amount indicating how much to change it by, and label being the label to update with the new value
     global kp, ki, kd
 
-    if name == "Kp":
+    if name == "Kp": 
         kp = round(kp + amount, 4)
         value = kp
         command = f"kp {kp}"
