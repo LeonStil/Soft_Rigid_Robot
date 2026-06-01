@@ -181,7 +181,7 @@ printf("Successfully setup motors\n");
 
 
 void resetPid() {
-    pid.reset();
+    pid.reset(); // This function is very important <o/
 }
 
 /*
