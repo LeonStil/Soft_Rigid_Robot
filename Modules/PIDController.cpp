@@ -60,7 +60,11 @@ float PIDController::update(float setpoint, float measuredAngle, float measuredA
         dt is included because the loop timing matters. Error for 0.01 seconds
         should count less than error for 1 full second.
     */
-    // integral += error * dt;This is old and probabily does not work. Now trying to use the raw gyroscope data instead of integrating
+
+    // This is old and probabily does not work. Now trying to use the raw gyroscope data instead of integrating
+    // integral += error * dt; 
+    
+    // This uses the gyroscope data
     integral = measuredAngularVelocity;
 
     /*
