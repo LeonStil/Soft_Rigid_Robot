@@ -3,6 +3,16 @@
 #include <math.h>
 #include <stdio.h>
 
+/* 
+
+The code for this sensor has been largely copied 
+from the following tutorial on youtube by @mmshilleh
+titled "How to Connect MPU6050 to Raspberry Pi Pico Using C++"
+https://www.youtube.com/watch?v=HdKJdjZBOzc
+This is the link to the video
+
+*/
+
 #define REG_PWR_MGMT_1 0x6B
 #define REG_ACCEL_XOUT_H 0x3B
 #define REG_GYRO_CONFIG 0x1B
@@ -15,7 +25,7 @@
 
 #define ACCEL_CONFIG_VALUE 0x08
 #define GYRO_CONFIG_VALUE 0x00
-#define SAMPLE_RATE_DIV 0
+#define SAMPLE_RATE_DIV 0 
 
 const float PI_VALUE = 3.14159265359f;
 const uint I2C_TIMEOUT_US = 100000;
@@ -98,14 +108,18 @@ bool MPU6050Sensor::update(float dt) {
     float rollAcc = atan2f(ay, az) * 180.0f / PI_VALUE;
     float pitchAcc = atan2f(-ax, sqrtf(ay * ay + az * az)) * 180.0f / PI_VALUE;
 
+    // Integrate gyroscope data
     roll += gyroX * dt;
     pitch += gyroY * dt;
 
+    // Complementary filter
+    // This works effectively as a low pass filter (on accelerometer) and a high pass filter (on gyroscope)
     roll = 0.98f * roll + 0.02f * rollAcc;
     pitch = 0.98f * pitch + 0.02f * pitchAcc;
 
+    // angle offset (The sensor was soldered in at an angle)
     angle = roll + 2.3f;
-
+    
     return true;
 }
 
@@ -125,6 +139,7 @@ float MPU6050Sensor::getAngle() const {
     return angle;
 }
 
+// Gyroscope data should be used by the PID controller
 float MPU6050Sensor::getGyroX() const {
     return gyroX;
 }

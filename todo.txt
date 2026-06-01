@@ -1,0 +1,7 @@
+- Test UI
+- Config file toevoegen aan UI
+- Servo Actuation in pico
+
+- Ontvang data?
+
+- MPU code source

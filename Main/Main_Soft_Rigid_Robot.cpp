@@ -55,7 +55,6 @@ These functions exist somewhere later in this file. Here are their names, what t
 
 void resetPid();
 void forceStopEverything();
-
 void clearCommandBuffer();
 void processCommand();
 void handleSerialCommands();
@@ -79,7 +78,10 @@ int main() {
   /*
     Set up the motor driver pins as PWM outputs.
 */
-motorDriver.begin();
+// Amai de indent
+
+// This function sets up 4 pwm pins for the motors and sets them to zero
+motorDriver.begin();  
 
 printf("Successfully setup motors\n");
 
@@ -97,7 +99,7 @@ printf("Successfully setup motors\n");
 
     printf("PID is stopped.\n");
     printf("Type help for all commands.\n");
-    printSettings();
+    printSettings(); // This is used for communication in the serial monitor
 
 
     while (true) {
@@ -124,23 +126,32 @@ printf("Successfully setup motors\n");
             float gx = mpu.getGyroX();
 
             if (pidRunning) {
+
+                // pid.update is the pid formula
                 pidOutput = pid.update(setpoint, angle, gx, dt, pValue, iValue, dValue);
 
-                MotorCommand motorCommand = motorConverter.convert(pidOutput);
+                /* 
+                Motor Command convert() turns pidOutput to pmw signals 
+                these are stored values are stored locally instead of being returned by the function
+                Convert also runs the deadband if enabled
+                */
 
+                MotorCommand motorCommand = motorConverter.convert(pidOutput);
                 motorOutput = motorCommand.motorOutput;
                 pwmA = motorCommand.pwmA;
                 pwmB = motorCommand.pwmB;
 
                 motorDriver.drive(pwmA, pwmB);
+
             } else {
-                motorDriver.stop();
+                motorDriver.stop(); //stop() sets all motor pwm pins to zero
                 pid.reset();
             }
 
             lastRoll = mpu.getRoll();
             lastPitch = mpu.getPitch();
             lastAngle = mpu.getAngle();
+
         } else {
             mpuOk = false;
             pidRunning = false;
@@ -159,7 +170,8 @@ printf("Successfully setup motors\n");
         lastPwmA = pwmA;
         lastPwmB = pwmB;
 
-        sleep_ms(10);
+        sleep_ms(10); // Why is this here? 
+        // The pid controller should run as fast as possible
     }
 
     return 0;
@@ -330,7 +342,11 @@ void processCommand() {
                 printf("\nUnknown motor command: %s\n", commandBuffer);
                 printHelp();
             }
+        
 
+
+        // Can we pls delete this if it is not needed?
+        
         /*
             Old simple PID commands.
 
