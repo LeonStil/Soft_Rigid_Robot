@@ -179,7 +179,7 @@ printf("Successfully setup motors\n");
 
 //-------------start of functions that were declared above main() but defined after main()-----------
 
-
+// Mag ik toestemming 
 void resetPid() {
     pid.reset(); // This function is very important <o/
 }
