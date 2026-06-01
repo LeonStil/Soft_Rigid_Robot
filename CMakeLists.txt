@@ -40,6 +40,8 @@ add_executable(Soft_Rigid_Robot
         Modules/MotorConverter.cpp
         Modules/MPU6050Sensor.cpp
         Modules/MotorDriver.cpp
+        Modules/ServoActuation.cpp
+        Modules/Navigation.cpp
         )
 
 pico_set_program_name(Soft_Rigid_Robot "Soft_Rigid_Robot")
