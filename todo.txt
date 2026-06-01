@@ -1,7 +1,18 @@
+
+KNOPPIES
 - Test UI
 - Config file toevoegen aan UI
+
+SERVOOOO
 - Servo Actuation in pico
 
-- Ontvang data?
+PID BETER???
+- deadband and response curve
 
-- MPU code source
+GRAFIEKJES???
+- Ontvang data? (grafiekjes in python)
+
+NAVIGATIE???
+- met setpoint?
+
+#####- MPU code source

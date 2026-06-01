@@ -170,6 +170,8 @@ printf("Successfully setup motors\n");
         lastPwmB = pwmB;
         lastdt = dt;
         sleep_ms(10); // Why is this here? 
+
+        // sleep_ms(10); // Why is this here? 
         // The pid controller should run as fast as possible
     }
 
